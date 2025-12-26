@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=2, maximum-scale=2
+  , user-scalable=no" />
+  <title>Gravity Sandbox</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
+  <style>
+    /* Hide the mouse/touch pointer and make canvas fullscreen touch-friendly */
+    html, body, canvas { cursor: none; }
+    body { margin: 0; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <!-- Touch-friendly fullscreen canvas. Open this file in a browser on the touch display. -->
+  <script src="sketch.js"></script>
+  <!-- One-time fullscreen start overlay -->
+  <div id="fsOverlay" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:rgba(0,0,0,0.35);">
+    <button id="enterFullscreenBtn" style="font-size:20px;padding:14px 22px;border-radius:8px;border:none;cursor:pointer;background:#111;color:#fff;">Enter Fullscreen</button>
+  </div>
+  <script>
+    // Request fullscreen on user gesture and hide overlay
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('enterFullscreenBtn');
+      const overlay = document.getElementById('fsOverlay');
+      if (!btn || !overlay) return;
+      btn.addEventListener('click', async () => {
+        try {
+          const el = document.documentElement;
+          if (el.requestFullscreen) {
+            await el.requestFullscreen();
+          } else if (el.webkitRequestFullscreen) {
+            // Safari
+            el.webkitRequestFullscreen();
+          }
+        } catch (e) {
+          console.warn('Fullscreen request failed', e);
+        }
+        // hide overlay irrespective of fullscreen success
+        overlay.style.display = 'none';
+      }, { once: true });
+    });
+  </script>
+</body>
+</html>
